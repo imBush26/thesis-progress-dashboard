@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "title": "本地端 LLM Agent 工具安全研究",
+    "subtitle": "多層次防禦架構 × 工具污染 × 間接提示注入",
+    "updatedAt": "2026-08-17",
+    "currentStage": "前四章初稿完成，進入防禦架構與實驗準備",
+    "nextGate": "建立最小 tool-calling harness，完成 30–50 個 Pilot episodes",
+    "progressLabel": "人工維護的加權規劃進度"
+  },
+  "metrics": {
+    "chaptersDrafted": 4,
+    "chaptersTotal": 8,
+    "literatureCount": 31,
+    "pilotCompleted": 0,
+    "pilotTarget": 50,
+    "blockers": 4
+  },
+  "milestones": [
+    { "id": "design", "label": "研究設計", "weight": 20, "completion": 90, "note": "研究問題、威脅模型與三層防禦架構已定案" },
+    { "id": "literature", "label": "文獻回顧", "weight": 15, "completion": 100, "note": "候選核實、相關性分類與第 2 章初稿已完成" },
+    { "id": "implementation", "label": "實驗環境與程式", "weight": 20, "completion": 20, "note": "架構已定案；harness、schema 與 registry 尚待實作" },
+    { "id": "experiment", "label": "Pilot 與正式實驗", "weight": 25, "completion": 0, "note": "需在實驗主機進行" },
+    { "id": "writing", "label": "論文撰寫", "weight": 15, "completion": 50, "note": "第 1–4 章與中英文摘要已有初稿" },
+    { "id": "submission", "label": "口試與提交", "weight": 5, "completion": 0, "note": "時程尚未確認" }
+  ],
+  "chapters": [
+    { "number": 1, "title": "緒論", "status": "drafted", "note": "初稿完成" },
+    { "number": 2, "title": "相關研究", "status": "drafted", "note": "初稿完成，研究缺口已校準" },
+    { "number": 3, "title": "背景知識", "status": "drafted", "note": "初稿完成，術語與指標已統一" },
+    { "number": 4, "title": "威脅模型與研究範圍", "status": "drafted", "note": "初稿完成" },
+    { "number": 5, "title": "多層防禦架構設計", "status": "ready", "note": "L1、L3 與模擬工具可先寫；L2 閾值待 Pilot" },
+    { "number": 6, "title": "實驗設計與資料集", "status": "ready", "note": "主體可先寫，部分數值待 Pilot" },
+    { "number": 7, "title": "實驗結果與分析", "status": "blocked", "note": "等待正式實驗" },
+    { "number": 8, "title": "結論與未來研究", "status": "blocked", "note": "等待第 7 章結果" }
+  ],
+  "priorities": [
+    { "title": "建立 Overleaf 專案", "detail": "套入已確認的封面、前置頁與 LaTeX 章節", "owner": "現在可做" },
+    { "title": "推進第 5 章", "detail": "先完成 L1、L3 與六個無外部能力模擬工具的設計", "owner": "寫作機" },
+    { "title": "建立資料骨架", "detail": "實作 SQLite schema 與 mock tool registry 的可測試版本", "owner": "寫作機" },
+    { "title": "準備 Pilot", "detail": "在實驗主機建立 harness，執行 30–50 個 episodes", "owner": "實驗主機" }
+  ],
+  "blockers": [
+    { "title": "口試與完成時程", "detail": "尚未取得正式日期，會影響後續章節收斂", "kind": "user" },
+    { "title": "SSD 容量", "detail": "實驗前需確認類型與可用容量", "kind": "user" },
+    { "title": "模型與 tool-call template", "detail": "主要與次要模型須經 Pilot 後凍結", "kind": "pilot" },
+    { "title": "L2 相似度閾值", "detail": "只能使用 Pilot／校準資料決定並在主實驗前凍結", "kind": "pilot" }
+  ],
+  "architecture": {
+    "attacks": [
+      "工具 metadata／manifest 污染",
+      "工具輸出間接提示注入"
+    ],
+    "defenses": [
+      { "id": "L1", "title": "來源完整性", "detail": "驗證 manifest 來源與內容是否遭竄改" },
+      { "id": "L2", "title": "意圖—能力比對", "detail": "以規則與 embedding 比對使用者意圖和工具能力" },
+      { "id": "L3", "title": "執行前政策閘門", "detail": "由獨立於 LLM 的 deterministic 規則做最終判定" }
+    ],
+    "outcome": "無外部能力的模擬執行器"
+  },
+  "decisions": [
+    { "date": "2026-08-14", "title": "研究方向定案", "detail": "聚焦工具污染、工具輸出注入與三層防禦" },
+    { "date": "2026-08-16", "title": "論文語言與架構確認", "detail": "中文撰寫、英文摘要，採八章架構" },
+    { "date": "2026-08-16", "title": "實驗拓撲定案", "detail": "原生推論服務、Python orchestrator、六個無外部能力模擬工具" },
+    { "date": "2026-08-16", "title": "前四章初稿完成", "detail": "研究缺口、術語與威脅模型已完成第一輪整合" }
+  ],
+  "sources": [
+    "WORK_SPLIT.md",
+    "PROJECT_MEMORY.md",
+    "THESIS_OUTLINE.md",
+    "EXPERIMENT_ARCHITECTURE.md"
+  ]
+}
