@@ -133,3 +133,25 @@ test('builds one standalone HTML snapshot with no external network dependency', 
     await rm(temporaryDirectory, { recursive: true, force: true });
   }
 });
+
+test('GitHub Pages workflow tests, builds, and deploys the generated site', async () => {
+  const workflow = await readFile(path.join(repositoryRoot, '.github', 'workflows', 'pages.yml'), 'utf8');
+  assert.match(workflow, /contents:\s*read/);
+  assert.match(workflow, /pages:\s*write/);
+  assert.match(workflow, /id-token:\s*write/);
+  assert.match(workflow, /node --test/);
+  assert.match(workflow, /node scripts\/build\.mjs/);
+  assert.match(workflow, /actions\/upload-pages-artifact@v3/);
+  assert.match(workflow, /actions\/deploy-pages@v4/);
+});
+
+test('maintenance guide documents the semi-automatic update and public-safety flow', async () => {
+  const readme = await readFile(path.join(repositoryRoot, 'README.md'), 'utf8');
+  assert.match(readme, /data\/status\.json/);
+  assert.match(readme, /node --test/);
+  assert.match(readme, /node scripts\/build\.mjs/);
+  assert.match(readme, /不得公開/);
+
+  const gitignore = await readFile(path.join(repositoryRoot, '.gitignore'), 'utf8');
+  assert.match(gitignore, /^dist\/$/m);
+});
