@@ -1,11 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import {
+  buildDashboard,
   calculateOverallProgress,
   renderTemplate,
   validateStatus,
 } from '../scripts/build.mjs';
+
+const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 function validStatus() {
   return {
@@ -95,4 +102,34 @@ test('escapes closing script tags in embedded data', () => {
   status.priorities[0].detail = '<\/script><script>alert(1)<\/script>';
   const output = renderTemplate('__STATUS_JSON__', status);
   assert.doesNotMatch(output, /<\/script>/i);
+});
+
+test('template contains the required dashboard regions and display modes', async () => {
+  const template = await readFile(path.join(repositoryRoot, 'src', 'template.html'), 'utf8');
+  for (const id of ['overview', 'milestones', 'chapters', 'actions', 'architecture', 'timeline']) {
+    assert.match(template, new RegExp(`id="${id}"`));
+  }
+  assert.match(template, /data-mode="personal"/);
+  assert.match(template, /data-mode="professor"/);
+  assert.match(template, /<main\b/);
+  assert.match(template, /aria-label=/);
+});
+
+test('builds one standalone HTML snapshot with no external network dependency', async () => {
+  const temporaryDirectory = await mkdtemp(path.join(tmpdir(), 'thesis-dashboard-'));
+  const outputPath = path.join(temporaryDirectory, 'index.html');
+
+  try {
+    const result = await buildDashboard({ outputPath });
+    const output = await readFile(outputPath, 'utf8');
+
+    assert.equal(result.overallProgress, 45);
+    assert.match(output, /^<!doctype html>/i);
+    assert.doesNotMatch(output, /__STATUS_JSON__/);
+    assert.doesNotMatch(output, /<(?:script|link|img)[^>]+(?:src|href)=["']https?:\/\//i);
+    assert.match(output, /window\.__THESIS_STATUS__/);
+    assert.match(output, /本地端 LLM Agent 工具安全研究/);
+  } finally {
+    await rm(temporaryDirectory, { recursive: true, force: true });
+  }
 });
