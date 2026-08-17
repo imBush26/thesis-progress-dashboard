@@ -123,7 +123,10 @@ test('builds one standalone HTML snapshot with no external network dependency', 
     const result = await buildDashboard({ outputPath });
     const output = await readFile(outputPath, 'utf8');
 
-    assert.equal(result.overallProgress, 45);
+    // 此為 data/status.json 的快照值，每次更新進度都須同步調整。
+    // 現值 52 = 研究設計 95×0.20 + 文獻 100×0.15 + 實作 45×0.20
+    //          + 實驗 0×0.25 + 撰寫 60×0.15 + 提交 0×0.05
+    assert.equal(result.overallProgress, 52);
     assert.match(output, /^<!doctype html>/i);
     assert.doesNotMatch(output, /__STATUS_JSON__/);
     assert.doesNotMatch(output, /<(?:script|link|img)[^>]+(?:src|href)=["']https?:\/\//i);
