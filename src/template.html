@@ -348,8 +348,8 @@
       const metrics = [
         { icon: 'file', label: '章節初稿', value: `${status.metrics.chaptersDrafted} / ${status.metrics.chaptersTotal}`, note: '前四章已完成第一版' },
         { icon: 'book', label: '研究文獻', value: status.metrics.literatureCount, note: '核心與候選文獻已整合' },
-        { icon: 'flask', label: 'Pilot episodes', value: `${status.metrics.pilotCompleted} / ${status.metrics.pilotTarget}`, note: '需在實驗主機執行' },
-        { icon: 'alert', label: '待確認', value: status.metrics.blockers, note: '已區分使用者與 Pilot 項目' },
+        { icon: 'flask', label: '前期診斷 episodes', value: `${status.metrics.pilotCompleted} / ${status.metrics.pilotTarget}`, note: '已完成診斷執行' },
+        { icon: 'alert', label: '待確認', value: status.metrics.blockers, note: '依研究依賴與行政事項追蹤' },
       ];
       document.getElementById('metric-grid').innerHTML = metrics.map((metric) => `
         <article class="metric-card">

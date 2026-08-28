@@ -115,6 +115,13 @@ test('template contains the required dashboard regions and display modes', async
   assert.match(template, /aria-label=/);
 });
 
+test('labels the completed preliminary run as diagnostic evidence', async () => {
+  const template = await readFile(path.join(repositoryRoot, 'src', 'template.html'), 'utf8');
+  assert.match(template, /前期診斷 episodes/);
+  assert.match(template, /已完成診斷執行/);
+  assert.doesNotMatch(template, /已區分使用者與 Pilot 項目/);
+});
+
 test('builds one standalone HTML snapshot with no external network dependency', async () => {
   const temporaryDirectory = await mkdtemp(path.join(tmpdir(), 'thesis-dashboard-'));
   const outputPath = path.join(temporaryDirectory, 'index.html');
@@ -124,14 +131,18 @@ test('builds one standalone HTML snapshot with no external network dependency', 
     const output = await readFile(outputPath, 'utf8');
 
     // 此為 data/status.json 的快照值，每次更新進度都須同步調整。
-    // 現值 52 = 研究設計 95×0.20 + 文獻 100×0.15 + 實作 45×0.20
-    //          + 實驗 0×0.25 + 撰寫 60×0.15 + 提交 0×0.05
-    assert.equal(result.overallProgress, 52);
+    // 現值 60 = 研究設計 98×0.20 + 文獻 100×0.15 + 實作 55×0.20
+    //          + 實驗 10×0.25 + 撰寫 75×0.15 + 提交 5×0.05，四捨五入。
+    assert.equal(result.overallProgress, 60);
     assert.match(output, /^<!doctype html>/i);
     assert.doesNotMatch(output, /__STATUS_JSON__/);
     assert.doesNotMatch(output, /<(?:script|link|img)[^>]+(?:src|href)=["']https?:\/\//i);
     assert.match(output, /window\.__THESIS_STATUS__/);
     assert.match(output, /本地端 LLM Agent 工具安全研究/);
+    assert.match(output, /2026-08-28/);
+    assert.match(output, /任務範圍能力規則閘門/);
+    assert.match(output, /150 個彌封確認性案例/);
+    assert.doesNotMatch(output, /RQ4|embedding|嵌入模型|相似度閾值/);
   } finally {
     await rm(temporaryDirectory, { recursive: true, force: true });
   }

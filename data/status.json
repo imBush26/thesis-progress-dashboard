@@ -2,49 +2,47 @@
   "meta": {
     "title": "本地端 LLM Agent 工具安全研究",
     "subtitle": "多層次防禦架構 × 工具污染 × 間接提示注入",
-    "updatedAt": "2026-08-17",
-    "currentStage": "前四章通過一致性稽核並全數修訂；四個模型與 embedding 驗收完成；論文首次成功編譯",
-    "nextGate": "撰寫攻擊案例與最小 tool-calling harness，之後才能執行 30–50 個 Pilot episodes",
+    "updatedAt": "2026-08-28",
+    "currentStage": "提審報告與簡報 v4 已定稿；研究範圍簡化為四個工具與三項主要指標；L2 純規則設計定案",
+    "nextGate": "完成四工具規格對齊、開發案例的任務類型回填與攻擊軌跡可達性覆核，再撰寫並封存 150 個彌封確認性案例",
     "progressLabel": "人工維護的加權規劃進度"
   },
   "metrics": {
     "chaptersDrafted": 4,
     "chaptersTotal": 8,
     "literatureCount": 31,
-    "pilotCompleted": 0,
-    "pilotTarget": 50,
-    "blockers": 5
+    "pilotCompleted": 480,
+    "pilotTarget": 480,
+    "blockers": 3
   },
   "milestones": [
-    { "id": "design", "label": "研究設計", "weight": 20, "completion": 95, "note": "三層防禦的職責分工已釐清；宣告層與能力層分離定案；統計計畫分三層推論強度" },
+    { "id": "design", "label": "研究設計", "weight": 20, "completion": 98, "note": "研究問題固定為 RQ1–RQ3；確認性核心固定 150 案例、四組態共 600 回合；三層防禦與簡化範圍已定案" },
     { "id": "literature", "label": "文獻回顧", "weight": 15, "completion": 100, "note": "候選核實、相關性分類與第 2 章初稿已完成；預印本標註與書目格式已統一" },
-    { "id": "implementation", "label": "實驗環境與程式", "weight": 20, "completion": 45, "note": "能力層與宣告層資料檔已完成並通過驗證；四個模型驗收就緒；harness 與案例尚待實作" },
-    { "id": "experiment", "label": "Pilot 與正式實驗", "weight": 25, "completion": 0, "note": "需在實驗主機進行；攻擊案例尚未撰寫" },
-    { "id": "writing", "label": "論文撰寫", "weight": 15, "completion": 60, "note": "第 1–4 章與中英文摘要已依稽核修訂；第 5–8 章骨架與必寫項已就緒" },
-    { "id": "submission", "label": "口試與提交", "weight": 5, "completion": 0, "note": "時程尚未確認；提審版本已建立 commit 標記機制" }
+    { "id": "implementation", "label": "實驗環境與程式", "weight": 20, "completion": 55, "note": "模型、工具呈現與資料流探針已完成；80 個開發案例已建立；四工具規格對齊與實驗執行框架仍待完成" },
+    { "id": "experiment", "label": "前期診斷與正式實驗", "weight": 25, "completion": 10, "note": "480 個前期診斷回合已完成；兩組皆出現觸底，僅作可達性診斷，不作防禦效果結論；確認性實驗尚未開始" },
+    { "id": "writing", "label": "論文撰寫", "weight": 15, "completion": 75, "note": "論文第 1–4 章初稿已完成；提審報告與提審簡報 v4 已定稿；第 5–8 章仍待後續實作與結果補完" },
+    { "id": "submission", "label": "口試與提交", "weight": 5, "completion": 5, "note": "提審資料已完成，正式口試與提交時程仍待系所通知" }
   ],
   "chapters": [
-    { "number": 1, "title": "緒論", "status": "drafted", "note": "已補研究問題、論文主軸句與貢獻校準" },
-    { "number": 2, "title": "相關研究", "status": "drafted", "note": "比較表新增判定依據來源一欄；術語與預印本標註已統一" },
-    { "number": 3, "title": "背景知識", "status": "drafted", "note": "指標定義已解除層數綁定，並補條件式分母與未抵達記帳" },
-    { "number": 4, "title": "威脅模型與研究範圍", "status": "drafted", "note": "新增工具信任綁定狀態小節；信任性質表補入控制面契約" },
-    { "number": 5, "title": "多層防禦架構設計", "status": "ready", "note": "能力層資料檔已完成，六個模擬工具的能力表可直接撰寫；L2 閾值待 Pilot" },
-    { "number": 6, "title": "實驗設計與資料集", "status": "ready", "note": "資料集配置、彌封程序與統計計畫已定案，可先寫主體" },
+    { "number": 1, "title": "緒論", "status": "drafted", "note": "研究問題已收斂為 RQ1–RQ3，主張與貢獻已依簡化範圍校準" },
+    { "number": 2, "title": "相關研究", "status": "drafted", "note": "比較表、出版狀態與核心術語已統一，主要文獻盤點完成" },
+    { "number": 3, "title": "背景知識", "status": "drafted", "note": "工具呼叫、分階段安全指標與確定性防禦概念已完成初稿" },
+    { "number": 4, "title": "威脅模型與研究範圍", "status": "drafted", "note": "工具信任狀態、宣告層與可信能力契約的界線已完成" },
+    { "number": 5, "title": "多層防禦架構設計", "status": "ready", "note": "L2 已改為任務範圍能力規則閘門；四工具架構與三層判定可據此撰寫" },
+    { "number": 6, "title": "實驗設計與資料集", "status": "ready", "note": "150 個彌封確認性案例、四組態 600 回合與開發集 80 案的配置已定案" },
     { "number": 7, "title": "實驗結果與分析", "status": "blocked", "note": "等待正式實驗；必寫項與效度限制清單已就緒" },
     { "number": 8, "title": "結論與未來研究", "status": "blocked", "note": "等待第 7 章結果" }
   ],
   "priorities": [
-    { "title": "撰寫攻擊案例", "detail": "開發集與彌封確認性核心；案例規格、覆蓋矩陣與基準真值政策已完成", "owner": "寫作機" },
-    { "title": "推進第 5 章", "detail": "宣告層與能力層分離、三層判定依據來源、無外部能力模擬工具設計", "owner": "寫作機" },
-    { "title": "實作 harness", "detail": "最小 tool-calling 迴圈與事件記錄；須含載入後驗證實際 context 的檢查", "owner": "寫作機" },
-    { "title": "準備 Pilot", "detail": "案例完成後在實驗主機執行 30–50 個 episodes，僅用開發集", "owner": "實驗主機" }
+    { "title": "完成彌封前可達性覆核", "detail": "針對兩類中繼資料污染案例確認攻擊步驟可抵達，避免彌封後才發現案例無法觀察", "owner": "研究設計" },
+    { "title": "規格對齊四個工具", "detail": "將能力契約、基準真值政策與工具登錄統一為 search_documents、read_note、export_report、send_to_endpoint", "owner": "資料集維護" },
+    { "title": "回填任務類型", "detail": "在案例結構加入 task_profile_id，並完成 80 個開發案例回填與一致性檢查", "owner": "資料集維護" },
+    { "title": "撰寫並封存確認性核心", "detail": "完成 150 個彌封確認性案例與預先登記後，才開始正式防禦實作與確認性實驗", "owner": "寫作端" }
   ],
   "blockers": [
-    { "title": "口試與完成時程", "detail": "尚未取得正式日期，會影響章節數是否由八章收斂為七章", "kind": "user" },
-    { "title": "儲存位置", "detail": "模型檔是否移至另一顆磁碟，須於凍結環境前確認", "kind": "user" },
-    { "title": "推理模式是否固定關閉", "detail": "主矩陣傾向固定關閉，理由為延遲變異與變因控制，待確認", "kind": "user" },
-    { "title": "模型版本綁定", "detail": "推論服務以分支名稱取得權重，未暴露不可變版本識別；須於 Pilot 前補齊版本與授權紀錄", "kind": "pilot" },
-    { "title": "L2 相似度閾值", "detail": "只能使用開發集校準並在主實驗前凍結", "kind": "pilot" }
+    { "title": "確認性案例的攻擊軌跡可達性", "detail": "兩類中繼資料污染案例的修法仍待覆核，彌封前必須結案", "kind": "research" },
+    { "title": "四工具與任務類型規格尚未對齊", "detail": "既有規格仍含已移除工具，且 80 個開發案例尚未回填 task_profile_id，完成前不宜實作正式防禦", "kind": "implementation" },
+    { "title": "口試與完成時程", "detail": "尚未取得系所正式日期；現階段維持八章規劃並等待通知", "kind": "user" }
   ],
   "architecture": {
     "attacks": [
@@ -52,9 +50,9 @@
       "工具輸出間接提示注入"
     ],
     "defenses": [
-      { "id": "L1", "title": "身分與綁定驗證", "detail": "驗證工具身分、版本與清單內容綁定。摘要與簽章不涵蓋來源真實內容是否善意，此即需要後兩層的理由" },
-      { "id": "L2", "title": "意圖—能力比對", "detail": "以控制面事前獨立建立的可信能力契約比對使用者意圖與提議參數，並實際執行放行、阻擋或轉待複核" },
-      { "id": "L3", "title": "執行前政策閘門", "detail": "由獨立於 LLM 的 deterministic 規則做最終判定，採預設拒絕" }
+      { "id": "L1", "title": "工具身分與綁定驗證", "detail": "在工具呈現給模型前，驗證核准狀態、版本與清單內容綁定；不判斷自然語言內容是否善意" },
+      { "id": "L2", "title": "任務範圍能力規則閘門", "detail": "以可信能力契約與任務允許能力集合做集合減法；工具具有額外能力時即阻擋，不使用語言模型或語意相似度" },
+      { "id": "L3", "title": "執行前政策閘門", "detail": "以參數結構、資料流、目的地與敏感欄位政策作最終確定性判定，採預設拒絕" }
     ],
     "outcome": "無外部能力的模擬執行器"
   },
@@ -66,9 +64,9 @@
     { "date": "2026-08-17", "title": "L1 職責邊界釐清", "detail": "完整性驗證在定義上不涵蓋內容善惡；來源真實但具誤導性的清單通過 L1 是正確行為而非漏洞" },
     { "date": "2026-08-17", "title": "統計計畫分三層推論強度", "detail": "主要確認性比較為無防禦對完整防禦；逐層增量定位為探索性，不寫成確認性主張" },
     { "date": "2026-08-17", "title": "確認性核心採彌封與預先登記", "detail": "核心案例於防禦實作前封存、分析規則預先登記，以區隔設計防禦與設計題目兩個階段" },
-    { "date": "2026-08-17", "title": "實驗素材語言與 embedding 選型", "detail": "素材一律英文、論文本文仍為中文；embedding 採多語模型作為日後語言擴充的避險" },
-    { "date": "2026-08-17", "title": "模型與 embedding 驗收完成", "detail": "主模型、縮減驗證模型與 embedding 均通過雜湊驗證與良性工具探針；主實驗組態顯示記憶體佔用低於半數" },
-    { "date": "2026-08-17", "title": "可重現性主張限縮", "detail": "實測發現長輸出即使同一工作階段亦非逐位元一致，屬推論堆疊的系統性特性；不主張逐位元可重現或跨組態重放" }
+    { "date": "2026-08-20", "title": "確認性規模與研究問題固定", "detail": "研究問題固定為三項並採單一主模型；確認性核心固定 150 案例，四組態主實驗固定 600 回合" },
+    { "date": "2026-08-21", "title": "採用簡化折衷方案", "detail": "工具由六個縮為四個，主要指標由七項縮為三項；L2 保留為純規則的任務範圍能力閘門" },
+    { "date": "2026-08-28", "title": "提審資料定稿", "detail": "提審報告與提審簡報完成 v4 定稿；後續工作轉向彌封前規格收斂與實驗實作" }
   ],
   "sources": [
     "WORK_SPLIT.md",
